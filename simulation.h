@@ -1,6 +1,7 @@
 /*-----------------------------------------------------------
   Simulation Header File
   -----------------------------------------------------------*/
+#include <iostream>
 #include"vecmath.h"
 
 /*-----------------------------------------------------------
@@ -12,7 +13,7 @@
 #define BALL_MASS		(0.1f)
 #define TWO_PI			(6.2832f)
 #define	SIM_UPDATE_MS	(10)
-#define NUM_BALLS		(7)		
+#define NUM_BALLS		(1)		
 
 /*-----------------------------------------------------------
   plane normals
@@ -68,9 +69,25 @@ public:
 	ball balls[NUM_BALLS];	
 	void Update(int ms);	
 	bool AnyBallsMoving(void) const;
+
+	int currentLevel = 0;
+	float tableArray[4][3]= {
+	    {-0.6f, 0.0, -1.2f} , 
+		{-0.6f, 0.1, -1.2f} ,
+		{-0.6f, 0.1, 1.2f} ,
+		{-0.6f, 0.0, 1.2f}
+	};
+};
+
+class player
+{
+public:
+	int score = 0;
 };
 
 /*-----------------------------------------------------------
   global table
   -----------------------------------------------------------*/
 extern table gTable;
+extern player player1;
+extern player player2;

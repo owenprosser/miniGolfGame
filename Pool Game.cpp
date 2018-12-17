@@ -1,11 +1,12 @@
 // Pool Game.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
-#include "stdafx.h"
+#include <stdlib.h>
 #include "glut.h"
-#include<math.h>
-#include"simulation.h"
+#include "tchar.h"
+#include <math.h>
+#include "simulation.h"
+
 
 #define _tprintf    wprintf
 
@@ -127,7 +128,6 @@ void DoCamera(int ms)
 	}
 }
 
-
 void RenderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -147,38 +147,48 @@ void RenderScene(void) {
 		glutWireSphere(gTable.balls[i].radius,12,12);
 		#endif
 		glPopMatrix();
-		glColor3f(0.0,0.0,1.0);
+		glColor3f(1.0,1.0,1.0);
 	}
 	glColor3f(1.0,1.0,1.0);
 
 	//draw the table
 	glPushMatrix();
-	
-	glBegin(GL_LINE_LOOP);
-	glVertex3f (-TABLE_X, 0.0, -TABLE_Z);
-	glVertex3f (-TABLE_X, 0.1, -TABLE_Z);
-	glVertex3f (-TABLE_X, 0.1, TABLE_Z);
-	glVertex3f (-TABLE_X, 0.0, TABLE_Z);
-	glEnd();
-	glBegin(GL_LINE_LOOP);
-	glVertex3f (TABLE_X, 0.0, -TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, -TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, TABLE_Z);
-	glVertex3f (TABLE_X, 0.0, TABLE_Z);
-	glEnd();
-	glBegin(GL_LINE_LOOP);
-	glVertex3f (TABLE_X, 0.0, -TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, -TABLE_Z);
-	glVertex3f (-TABLE_X, 0.1, -TABLE_Z);
-	glVertex3f (-TABLE_X, 0.0, -TABLE_Z);
-	glEnd();
-	glBegin(GL_LINE_LOOP);
-	glVertex3f (TABLE_X, 0.0, TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, TABLE_Z);
-	glVertex3f (-TABLE_X, 0.1, TABLE_Z);
-	glVertex3f (-TABLE_X, 0.0, TABLE_Z);
-	glEnd();
 
+	if (gTable.currentLevel == 0) {
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(-TABLE_X, 0.0, -TABLE_Z);
+		glVertex3f(-TABLE_X, 0.1, -TABLE_Z);
+		glVertex3f(-TABLE_X, 0.1, TABLE_Z);
+		glVertex3f(-TABLE_X, 0.0, TABLE_Z);
+		glEnd();
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(TABLE_X, 0.0, -TABLE_Z);
+		glVertex3f(TABLE_X, 0.1, -TABLE_Z);
+		glVertex3f(TABLE_X, 0.1, TABLE_Z);
+		glVertex3f(TABLE_X, 0.0, TABLE_Z);
+		glEnd();
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(TABLE_X, 0.0, -TABLE_Z);
+		glVertex3f(TABLE_X, 0.1, -TABLE_Z);
+		glVertex3f(-TABLE_X, 0.1, -TABLE_Z);
+		glVertex3f(-TABLE_X, 0.0, -TABLE_Z);
+		glEnd();
+		glBegin(GL_LINE_LOOP);
+		glVertex3f(TABLE_X, 0.0, TABLE_Z);
+		glVertex3f(TABLE_X, 0.1, TABLE_Z);
+		glVertex3f(-TABLE_X, 0.1, TABLE_Z);
+		glVertex3f(-TABLE_X, 0.0, TABLE_Z);
+		glEnd();
+	}
+
+	/*glBegin(GL_LINE_LOOP);
+	for (int i = 0; i < 5; i++) {
+		glVertex3f(gTable.tableArray[i][0], gTable.tableArray[i][1], gTable.tableArray[i][2]);
+		std::cout << gTable.tableArray[i][0];
+		std::cout << "\n\n";
+	}
+	glEnd();
+*/
 	//draw the cue
 	if(gDoCue)
 	{
