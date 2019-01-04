@@ -129,6 +129,7 @@ public:
 class table
 {
 public:
+	int currentPlayer = 0;
 	ball balls[NUM_BALLS];	
 	cushion cushions[NUM_CUSHIONS];
 	particleSet parts;
@@ -138,7 +139,9 @@ public:
 	void SetupCushions(void);
 	void Update(int ms);	
 	bool AnyBallsMoving(void) const;
-	void ManageBalls(void);
+	void ManagePositions(void);
+	void MoveBall(void);
+	void CheckHoles(void);
 };
 
 /*-----------------------------------------------------------

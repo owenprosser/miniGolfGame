@@ -40,6 +40,7 @@ bool gCamZout = false;
 void DoCamera(int ms)
 {
 	static const vec3 up(0.0,1.0,0.0);
+	int speed = 200;
 
 	if(gCamRotate)
 	{
@@ -47,14 +48,14 @@ void DoCamera(int ms)
 		{
 			vec3 camDir = (gCamLookAt - gCamPos).Normalised();
 			vec3 localL = up.Cross(camDir);
-			vec3 inc = (localL* ((gCamRotSpeed*ms)/1000.0) );
+			vec3 inc = (localL* ((gCamRotSpeed*ms)/speed) );
 			gCamLookAt = gCamPos + camDir + inc;
 		}
 		if(gCamR)
 		{
 			vec3 camDir = (gCamLookAt - gCamPos).Normalised();
 			vec3 localR = up.Cross(camDir);
-			vec3 inc = (localR* ((gCamRotSpeed*ms)/1000.0) );
+			vec3 inc = (localR* ((gCamRotSpeed*ms)/speed) );
 			gCamLookAt = gCamPos + camDir - inc;
 		}
 		if(gCamU)
@@ -62,7 +63,7 @@ void DoCamera(int ms)
 			vec3 camDir = (gCamLookAt - gCamPos).Normalised();
 			vec3 localR = camDir.Cross(up);
 			vec3 localUp = localR.Cross(camDir);
-			vec3 inc = (localUp* ((gCamMoveSpeed*ms)/1000.0) );
+			vec3 inc = (localUp* ((gCamMoveSpeed*ms)/speed) );
 			gCamLookAt = gCamPos + camDir + inc;
 		}
 		if(gCamD)
@@ -70,7 +71,7 @@ void DoCamera(int ms)
 			vec3 camDir = (gCamLookAt - gCamPos).Normalised();
 			vec3 localR = camDir.Cross(up);
 			vec3 localUp = localR.Cross(camDir);
-			vec3 inc = (localUp* ((gCamMoveSpeed*ms)/1000.0) );
+			vec3 inc = (localUp* ((gCamMoveSpeed*ms)/speed) );
 			gCamLookAt = gCamPos + camDir - inc;
 		}		
 	}

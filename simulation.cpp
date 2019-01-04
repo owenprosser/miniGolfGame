@@ -467,8 +467,8 @@ void table::SetupCushions(void)
 	}
 
 	//Setup Hole
-	double holeXPos[4] = { 0, 1, 2, 3 };
-	double holeYPos[4] = { 0, 0, 0, 0 };
+	double holeXPos[4] = { 1.5, 5, -1, 7 };
+	double holeYPos[4] = { -2.5, -3, -8, -6 };
 
 	for (int i = 0; i < 4; i++) {
 		gTable.holes[i].position(0) = holeXPos[i];
@@ -503,24 +503,64 @@ void table::Update(int ms)
 	//parts.AddParticle(pos);
 }
 
-void table::ManageBalls(void) {
-	gTable.balls[0].position = gTable.players[0].position;
+void table::ManagePositions(void) {
+	if (gTable.currentPlayer >= NUM_PLAYERS) gTable.currentPlayer = 0;
+
+	gTable.players[currentPlayer].position(0) = gTable.balls[0].position(0);
+	gTable.players[currentPlayer].position(1) = gTable.balls[0].position(1);
+
+	gTable.players[currentPlayer].strokes++;
+
+	cout << "Current Player: " << currentPlayer << " Strokes: " << gTable.players[currentPlayer].strokes << endl << endl;
+
+	gTable.currentPlayer++;
 }
+
+void table::MoveBall(void){
+	if (gTable.currentPlayer >= NUM_PLAYERS) gTable.currentPlayer = 0;
+	gTable.balls[0].position(0) = gTable.players[currentPlayer].position(0);
+	gTable.balls[0].position(1) = gTable.players[currentPlayer].position(1);
+
+}
+
+void table::CheckHoles(void){
+	for (int i = 0; i < 4; i++) {
+		cout << gTable.balls[0].position(0) - gTable.holes[i].position(0) << endl;
+		cout << gTable.balls[0].position(1) - gTable.holes[i].position(1) << endl << endl;
+
+		cout << gTable.balls[0].position(0);
+		cout << gTable.balls[0].position(1)<< endl << endl;
+
+
+		if ((gTable.balls[0].position(0) - gTable.holes[i].position(0)) < 0.005) {
+			if ((gTable.balls[0].position(1) - gTable.holes[i].position(1)) < 0.005) {
+				cout << "IN HOLE";
+
+			}
+		}
+	}
+}
+
+bool endOfSession = false;
 
 bool table::AnyBallsMoving(void) const
 {
 	//return true if any ball has a non-zero velocity
 	for(int i=0;i<NUM_BALLS;i++) 
 	{
-		if(balls[i].velocity(0)!=0.0) return true;
-		if(balls[i].velocity(1)!=0.0) return true;
+		if (balls[i].velocity(0) != 0.0 || balls[i].velocity(1) != 0.0) {
+			endOfSession = true;
+			gTable.CheckHoles();
+			return true;
+		}
 	}
 
-	cout << gTable.balls[0].position(0);
-	cout << gTable.balls[0].position(1) << endl;
+	if (endOfSession == true) {
+		gTable.ManagePositions();
+		gTable.MoveBall();
+	}
 
-	gTable.ManageBalls();
-	//gTable.balls[0].position = gTable.players[0].position;
+	endOfSession = false;
 
 	return false;
 }
