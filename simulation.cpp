@@ -139,48 +139,6 @@ bool ball::HasHitPlane(const cushion &c) const
 		return false;
 	}*/
 
-
-	//if (c.vertices[0](0) == c.vertices[1](0) && c.vertices[0](1) != c.vertices[1](1)) {                           //IS IT VERTICAL
-	//	std::cout << c.vertices[0](0) << c.vertices[0](1) << " - " << c.vertices[1](0) << c.vertices[1](1) << "\n\n";
-	//	std::cout << gTable.balls[0].position(0) << " - " << gTable.balls[0].position(1) << "\n\n";
-
-	//		double temp = gTable.balls[0].position(0) - c.vertices[0](0);
-
-	//		std::cout << temp << std::endl;
-	//		if (temp < 0) {
-	//			temp *= -1;
-	//		}
-
-	//		bool canCollide = false;
-
-	//		if (temp < 0.05) {                                                                                //IF CLOSE TO WALL
-	//			if (c.vertices[0](1) - c.vertices[1](1) < 0) {                                                //IF TOP DOWN
-	//				if (gTable.balls[0].position(1) > c.vertices[0](1) && gTable.balls[0].position(1) < c.vertices[1](1)) {   //IF BETWEEN POINTS
-	//					std::cout << c.vertices[0](0) << c.vertices[0](1) << " - " << c.vertices[1](0) << c.vertices[1](1) << "\n\n";
-	//					std::cout << gTable.balls[0].position(0) << " - " << gTable.balls[0].position(1) << "\n\n";
-	//					canCollide = true;
-	//				}
-	//			}
-	//			if (c.vertices[0](1) - c.vertices[1](1) > 0) {
-	//				if (gTable.balls[0].position(1) < c.vertices[0](1) && gTable.balls[0].position(1) > c.vertices[1](1)) {
-	//					std::cout << c.vertices[0](0) << c.vertices[0](1) << " - " << c.vertices[1](0) << c.vertices[1](1) << "\n\n";
-	//					std::cout << gTable.balls[0].position(0) << " - " << gTable.balls[0].position(1) << "\n\n";
-	//					canCollide = true;
-	//				}
-	//			}
-
-	//			if (canCollide) {
-	//				return true;
-	//			}
-	//			else {
-	//				return false;
-	//			}
-	//		}
-	//	
-	//}
-
-	//return false;
-
 	//if moving away from plane, cannot hit
 	if (velocity.Dot(c.normal) >= 0.0) return false;
 
@@ -408,11 +366,19 @@ void particleSet::update(int ms)
 void table::SetupCushions(void)
 {
 
-	double table1[16]{
-					-1, -1, -1, 1, //LEFT WALL
-					-1, 1, 1, 1, //BOTTOM WALL
-					1, 1, 1, -1, //RIGHT WALL
-					1, -1, -1, -1 // TOP WALL
+	double table1[52]{
+			-1, 1, 1, 1,
+			1, 1, 1, 0.5,
+			1, 0.5, 0.5, 0.5,
+			0.5, 0.5, 0.5, -1,
+			0.5, -1, 1, -1,
+			1, -1, 1, -1.5,
+			1, -1.5, -1, -1.5,
+			-1, -1.5, -1, -1,
+			-1, -1, -0.5, -1,
+			-0.5, -1, -0.5, 0.5,
+			-0.5, 0.5, -1, 0.5,
+			-1, 0.5, -1, 1
 	};
 
 	double table2[32]{
@@ -426,26 +392,68 @@ void table::SetupCushions(void)
 					 -0.5, -1, -1, -1
 	};
 
+	double table3[32]{
+		-2, -2, -2, 2,
+		-2, 2, 2, 2,
+		2, 2, 2, -2,
+		2, -2, -2, -2,
+
+	   -1,1,-1,-1,
+	   -1,-1,1,-1,
+	   1,-1,1,1,
+	   1,1,-1,1
+	};
+
+	double table4[32]{
+		-1, 1, 0, 1,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		1, 0, 1, 1,
+		1, 1, 2, 1,
+		2, 1, 2, -1.5,
+		2, -1.5, -1, -1.5,
+		-1, -1.5, -1, 1
+	};
+
 	int count = 0;
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < 12; i++) // Hole 1
 	{
-		cushions[i].vertices[0](0) = table1[count++];
-		cushions[i].vertices[0](1) = table1[count++];
-		cushions[i].vertices[1](0) = table1[count++];
-		cushions[i].vertices[1](1) = table1[count++];
+		cushions[i].vertices[0](0) = table1[count++]*2;
+		cushions[i].vertices[0](1) = table1[count++]*2;
+		cushions[i].vertices[1](0) = table1[count++]*2;
+		cushions[i].vertices[1](1) = table1[count++]*2;
 	}
 	count = 0;
 
-	for (int i = 4; i < 12; i++)
+	for (int i = 12; i < 20; i++) //Hole 2
 	{
-		cushions[i].vertices[0](0) = table2[count++]+3;
-		cushions[i].vertices[0](1) = table2[count++];
-		cushions[i].vertices[1](0) = table2[count++]+3;
-		cushions[i].vertices[1](1) = table2[count++];
+		cushions[i].vertices[0](0) = table2[count++]*2 + 5;
+		cushions[i].vertices[0](1) = table2[count++]*2;
+		cushions[i].vertices[1](0) = table2[count++]*2 + 5;
+		cushions[i].vertices[1](1) = table2[count++]*2;
+	}
+	count = 0;
+
+	for (int i = 20; i < 28; i++) //Hole 3
+	{
+		cushions[i].vertices[0](0) = table3[count++]-1;
+		cushions[i].vertices[0](1) = table3[count++]-6.5;
+		cushions[i].vertices[1](0) = table3[count++]-1;
+		cushions[i].vertices[1](1) = table3[count++]-6.5;
+	}
+	count = 0;
+
+	for (int i = 28; i < 36; i++) //Hole 4
+	{
+		cushions[i].vertices[0](0) = table4[count++]*2 + 4;
+		cushions[i].vertices[0](1) = table4[count++]*2 - 6.5;
+		cushions[i].vertices[1](0) = table4[count++]*2 + 4;
+		cushions[i].vertices[1](1) = table4[count++]*2 - 6.5;
 	}
 
-	gTable.balls[0].position(0) = 3;
-	gTable.balls[0].position(1) = 0;
+
+	/*gTable.balls[0].position(0) = 0;
+	gTable.balls[0].position(1) = -3.5;*/
 
 	for(int i=0;i<NUM_CUSHIONS;i++)
 	{

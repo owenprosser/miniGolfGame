@@ -148,15 +148,15 @@ void RenderScene(void) {
 		glPopMatrix();
 		glColor3f(0.0,0.0,1.0);
 	}
-	glColor3f(1.0,1.0,1.0);
+	glColor3f(1.0,0.0,0.0);//Cushion colour
 
 	//draw the table
 	for(int i=0;i<NUM_CUSHIONS;i++)
 	{	
 		glBegin(GL_LINE_LOOP);
 		glVertex3f (gTable.cushions[i].vertices[0](0), 0.0, gTable.cushions[i].vertices[0](1));
-		glVertex3f (gTable.cushions[i].vertices[0](0), 0.1, gTable.cushions[i].vertices[0](1));
-		glVertex3f (gTable.cushions[i].vertices[1](0), 0.1, gTable.cushions[i].vertices[1](1));
+		glVertex3f (gTable.cushions[i].vertices[0](0), 0.5, gTable.cushions[i].vertices[0](1));
+		glVertex3f (gTable.cushions[i].vertices[1](0), 0.5, gTable.cushions[i].vertices[1](1));
 		glVertex3f (gTable.cushions[i].vertices[1](0), 0.0, gTable.cushions[i].vertices[1](1));
 		glEnd();
 	}
@@ -173,26 +173,7 @@ void RenderScene(void) {
 		#endif
 		glPopMatrix();		
 	}
-	/*
-	glBegin(GL_LINE_LOOP);
-	glVertex3f (TABLE_X, 0.0, -TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, -TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, TABLE_Z);
-	glVertex3f (TABLE_X, 0.0, TABLE_Z);
-	glEnd();
-	glBegin(GL_LINE_LOOP);
-	glVertex3f (TABLE_X, 0.0, -TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, -TABLE_Z);
-	glVertex3f (-TABLE_X, 0.1, -TABLE_Z);
-	glVertex3f (-TABLE_X, 0.0, -TABLE_Z);
-	glEnd();
-	glBegin(GL_LINE_LOOP);
-	glVertex3f (TABLE_X, 0.0, TABLE_Z);
-	glVertex3f (TABLE_X, 0.1, TABLE_Z);
-	glVertex3f (-TABLE_X, 0.1, TABLE_Z);
-	glVertex3f (-TABLE_X, 0.0, TABLE_Z);
-	glEnd();
-	*/
+	
 
 	//draw the cue
 	if(gDoCue)

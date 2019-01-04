@@ -14,7 +14,7 @@
 #define TWO_PI			(6.2832f)
 #define	SIM_UPDATE_MS	(10)
 #define NUM_BALLS		(1)		
-#define NUM_CUSHIONS	(12)		
+#define NUM_CUSHIONS	(36)		
 #define MAX_PARTICLES	(200)
 /*-----------------------------------------------------------
   plane normals
@@ -106,6 +106,21 @@ public:
 	void update(int ms);
 };
 
+class players {
+	int playerOneStokes = 0;
+	int playerTwoStrokes = 0;
+	int currentPlayer = NULL;
+
+	double playerOnePositionX = 0;
+	double playerOnePositionY = 0;
+	double playerTwoPositionX = 0;
+	double playerTwoPositionY = 0;
+
+	void switchPlayer() {
+		if (currentPlayer == 1) currentPlayer = 0;
+		if (currentPlayer == 0) currentPlayer = 1;
+	}
+};
 
 /*-----------------------------------------------------------
   table class
@@ -126,3 +141,4 @@ public:
   global table
   -----------------------------------------------------------*/
 extern table gTable;
+extern players player;
