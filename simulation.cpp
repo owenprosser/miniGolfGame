@@ -3,8 +3,6 @@
   -----------------------------------------------------------*/
 #include"stdafx.h"
 #include"simulation.h"
-#include<stdio.h>
-#include<stdlib.h>
 #include <iostream>
 
 
@@ -365,7 +363,6 @@ void particleSet::update(int ms)
   -----------------------------------------------------------*/
 void table::SetupCushions(void)
 {
-
 	double table1[52]{
 			-1, 1, 1, 1,
 			1, 1, 1, 0.5,
@@ -451,7 +448,6 @@ void table::SetupCushions(void)
 		cushions[i].vertices[1](1) = table4[count++]*2 - 6.5;
 	}
 
-
 	/*gTable.balls[0].position(0) = 0;
 	gTable.balls[0].position(1) = -3.5;*/
 
@@ -459,6 +455,24 @@ void table::SetupCushions(void)
 	{
 		cushions[i].MakeCentre();
 		cushions[i].MakeNormal();
+	}
+
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+		player newPlayer;
+		newPlayer.playerNum = i;
+		newPlayer.position(0) = 0;
+		newPlayer.position(1) = 0.5;
+
+		gTable.players.push_back(newPlayer);
+	}
+
+	//Setup Hole
+	double holeXPos[4] = { 0, 1, 2, 3 };
+	double holeYPos[4] = { 0, 0, 0, 0 };
+
+	for (int i = 0; i < 4; i++) {
+		gTable.holes[i].position(0) = holeXPos[i];
+		gTable.holes[i].position(1) = holeYPos[i];
 	}
 }
 
@@ -489,6 +503,10 @@ void table::Update(int ms)
 	//parts.AddParticle(pos);
 }
 
+void table::ManageBalls(void) {
+	gTable.balls[0].position = gTable.players[0].position;
+}
+
 bool table::AnyBallsMoving(void) const
 {
 	//return true if any ball has a non-zero velocity
@@ -497,5 +515,12 @@ bool table::AnyBallsMoving(void) const
 		if(balls[i].velocity(0)!=0.0) return true;
 		if(balls[i].velocity(1)!=0.0) return true;
 	}
+
+	cout << gTable.balls[0].position(0);
+	cout << gTable.balls[0].position(1) << endl;
+
+	gTable.ManageBalls();
+	//gTable.balls[0].position = gTable.players[0].position;
+
 	return false;
 }

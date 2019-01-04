@@ -2,6 +2,9 @@
   Simulation Header File
   -----------------------------------------------------------*/
 #include"vecmath.h"
+#include <vector>
+#include <iterator>
+using namespace std;
 
 /*-----------------------------------------------------------
   Macros
@@ -16,6 +19,8 @@
 #define NUM_BALLS		(1)		
 #define NUM_CUSHIONS	(36)		
 #define MAX_PARTICLES	(200)
+
+#define NUM_PLAYERS		(2)
 /*-----------------------------------------------------------
   plane normals
   -----------------------------------------------------------*/
@@ -72,6 +77,11 @@ public:
 	void HitBall(ball &b);
 };
 
+class hole {
+public:
+	vec2	position;
+};
+
 class particle 
 {
 public:
@@ -106,20 +116,11 @@ public:
 	void update(int ms);
 };
 
-class players {
-	int playerOneStokes = 0;
-	int playerTwoStrokes = 0;
-	int currentPlayer = NULL;
-
-	double playerOnePositionX = 0;
-	double playerOnePositionY = 0;
-	double playerTwoPositionX = 0;
-	double playerTwoPositionY = 0;
-
-	void switchPlayer() {
-		if (currentPlayer == 1) currentPlayer = 0;
-		if (currentPlayer == 0) currentPlayer = 1;
-	}
+class player {
+public:
+	int strokes = 0;
+	int playerNum;
+	vec2 position;
 };
 
 /*-----------------------------------------------------------
@@ -131,14 +132,16 @@ public:
 	ball balls[NUM_BALLS];	
 	cushion cushions[NUM_CUSHIONS];
 	particleSet parts;
+	vector<player> players;
+	hole holes[4];
 
 	void SetupCushions(void);
 	void Update(int ms);	
 	bool AnyBallsMoving(void) const;
+	void ManageBalls(void);
 };
 
 /*-----------------------------------------------------------
   global table
   -----------------------------------------------------------*/
 extern table gTable;
-extern players player;

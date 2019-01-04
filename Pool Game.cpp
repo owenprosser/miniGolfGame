@@ -1,7 +1,8 @@
 // Pool Game.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
+#include<stdio.h>
+#include<stdlib.h>
 #include "stdafx.h"
 #include<glut.h>
 #include<math.h>
@@ -21,8 +22,8 @@ bool gDoCue = true;
 //camera variables
 //vec3 gCamPos(0.0, 0.7, 2.1);
 //vec3 gCamLookAt(0.0, 0.0, 0.0);
-vec3 gCamPos(4.0,8.7,0.1);
-vec3 gCamLookAt(4.0,0.0,-1.0);
+vec3 gCamPos(4.0,9.7,1.1);
+vec3 gCamLookAt(4.0,.0,-1.0);
 bool gCamRotate = true;
 float gCamRotSpeed = 0.2;
 float gCamMoveSpeed = 0.5;
@@ -135,7 +136,7 @@ void RenderScene(void) {
 	gluLookAt(gCamPos(0),gCamPos(1),gCamPos(2),gCamLookAt(0),gCamLookAt(1),gCamLookAt(2),0.0f,1.0f,0.0f);
 
 	//draw the ball
-	glColor3f(1.0,1.0,1.0);
+	glColor3f(0.0,0.0,1.0);
 	for(int i=0;i<NUM_BALLS;i++)
 	{
 		glPushMatrix();
@@ -148,6 +149,17 @@ void RenderScene(void) {
 		glPopMatrix();
 		glColor3f(0.0,0.0,1.0);
 	}
+
+	//DRAW HOLE
+	for (int i = 0; i < 4; i++) {
+		glColor3f(1.0, 1.0, 1.0);
+		glPushMatrix();
+		glTranslatef(gTable.holes[i].position(0), (BALL_RADIUS / 2.0), gTable.holes[i].position(1));
+		glutSolidSphere(gTable.balls[0].radius, 32, 32);
+
+		glPopMatrix();
+	}
+
 	glColor3f(1.0,0.0,0.0);//Cushion colour
 
 	//draw the table
