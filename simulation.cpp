@@ -518,26 +518,50 @@ void table::ManagePositions(void) {
 
 void table::MoveBall(void){
 	if (gTable.currentPlayer >= NUM_PLAYERS) gTable.currentPlayer = 0;
-	gTable.balls[0].position(0) = gTable.players[currentPlayer].position(0);
-	gTable.balls[0].position(1) = gTable.players[currentPlayer].position(1);
-
+	if (gTable.players[currentPlayer].currentHoleComplete == false) {
+		gTable.balls[0].velocity(0) = 0;
+		gTable.balls[0].velocity(1) = 0;
+		gTable.balls[0].position(0) = gTable.players[currentPlayer].position(0);
+		gTable.balls[0].position(1) = gTable.players[currentPlayer].position(1);
+	}
 }
 
 void table::CheckHoles(void){
 	for (int i = 0; i < 4; i++) {
-		cout << gTable.balls[0].position(0) - gTable.holes[i].position(0) << endl;
-		cout << gTable.balls[0].position(1) - gTable.holes[i].position(1) << endl << endl;
+		vec2 mag = gTable.balls[0].position - gTable.holes[i].position;
+		float dist = (float)mag.Magnitude();
+		//cout << "\n\n MAG: "<< dist << "\n";
 
-		cout << gTable.balls[0].position(0);
-		cout << gTable.balls[0].position(1)<< endl << endl;
-
-
-		if ((gTable.balls[0].position(0) - gTable.holes[i].position(0)) < 0.005) {
-			if ((gTable.balls[0].position(1) - gTable.holes[i].position(1)) < 0.005) {
-				cout << "IN HOLE";
-
-			}
+		if (dist < BALL_RADIUS*5) {
+			cout << "IN HOLE";
+			gTable.players[currentPlayer].currentHoleComplete = true;
+			NextHole();
 		}
+	}
+
+}
+
+void table::NextHole(void) {
+	int playersCompletedCurrentHole = 0;
+
+	for (int i = 0; i < NUM_PLAYERS; i++) {
+		if (gTable.players[i].currentHoleComplete == true) {
+			playersCompletedCurrentHole++;
+		}
+	}
+
+	cout << "\n players completed hole: " << playersCompletedCurrentHole;
+
+	if (playersCompletedCurrentHole == NUM_PLAYERS) {
+		cout << "\nmoving to next hole \n";
+		gTable.balls[0].velocity(0) = 0;
+		gTable.balls[0].velocity(1) = 0;
+		gTable.balls[0].position(0) = gTable.spawnXPos[gTable.currentHole + 1];
+		gTable.balls[0].position(1) = gTable.spawnYPos[gTable.currentHole + 1];
+		cout << "\n\n Current Hole; " << currentHole;
+		cout << "\n\npositions: " << spawnXPos[currentHole + 1] << "   " << spawnYPos[currentHole + 1];
+		
+		gTable.currentHole++;
 	}
 }
 

@@ -119,6 +119,7 @@ public:
 class player {
 public:
 	int strokes = 0;
+	bool currentHoleComplete = false;
 	int playerNum;
 	vec2 position;
 };
@@ -130,6 +131,11 @@ class table
 {
 public:
 	int currentPlayer = 0;
+	int currentHole = 0;
+	int playersComplete = 0;
+	double spawnXPos[4] = { 0, 5, 3, 3 };
+	double spawnYPos[4] = { 0, 0, 0, 0 };
+
 	ball balls[NUM_BALLS];	
 	cushion cushions[NUM_CUSHIONS];
 	particleSet parts;
@@ -140,8 +146,9 @@ public:
 	void Update(int ms);	
 	bool AnyBallsMoving(void) const;
 	void ManagePositions(void);
-	void MoveBall(void);
+	void MoveBall(void); 
 	void CheckHoles(void);
+	void NextHole(void);
 };
 
 /*-----------------------------------------------------------
