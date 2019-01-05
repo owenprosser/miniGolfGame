@@ -527,42 +527,49 @@ void table::MoveBall(void){
 }
 
 void table::CheckHoles(void){
+	
 	for (int i = 0; i < 4; i++) {
 		vec2 mag = gTable.balls[0].position - gTable.holes[i].position;
 		float dist = (float)mag.Magnitude();
 		//cout << "\n\n MAG: "<< dist << "\n";
 
 		if (dist < BALL_RADIUS*5) {
-			cout << "IN HOLE";
+			//cout << "IN HOLE";
 			gTable.players[currentPlayer].currentHoleComplete = true;
-			NextHole();
+
+			int playersCompletedCurrentHole = 0;
+
+			for (int i = 0; i < NUM_PLAYERS; i++) {
+				if (gTable.players[i].currentHoleComplete == true) {
+					playersCompletedCurrentHole++;
+				}
+			}
+			//cout << "\n players completed hole: " << playersCompletedCurrentHole;
+			if (playersCompletedCurrentHole == NUM_PLAYERS) {
+				NextHole();
+			}
 		}
 	}
 
 }
 
 void table::NextHole(void) {
-	int playersCompletedCurrentHole = 0;
+
+	cout << "\nmoving to next hole \n";
+	gTable.balls[0].velocity(0) = 0;
+	gTable.balls[0].velocity(1) = 0;
+	gTable.balls[0].position(0) = gTable.spawnXPos[gTable.currentHole + 1];
+	gTable.balls[0].position(1) = gTable.spawnYPos[gTable.currentHole + 1];
+	cout << "\n\n Current Hole; " << currentHole;
+	cout << "\n\npositions: " << spawnXPos[currentHole + 1] << "   " << spawnYPos[currentHole + 1];
+
+	gTable.ManagePositions();
 
 	for (int i = 0; i < NUM_PLAYERS; i++) {
-		if (gTable.players[i].currentHoleComplete == true) {
-			playersCompletedCurrentHole++;
-		}
+		gTable.players[i].currentHoleComplete = false;
 	}
 
-	cout << "\n players completed hole: " << playersCompletedCurrentHole;
-
-	if (playersCompletedCurrentHole == NUM_PLAYERS) {
-		cout << "\nmoving to next hole \n";
-		gTable.balls[0].velocity(0) = 0;
-		gTable.balls[0].velocity(1) = 0;
-		gTable.balls[0].position(0) = gTable.spawnXPos[gTable.currentHole + 1];
-		gTable.balls[0].position(1) = gTable.spawnYPos[gTable.currentHole + 1];
-		cout << "\n\n Current Hole; " << currentHole;
-		cout << "\n\npositions: " << spawnXPos[currentHole + 1] << "   " << spawnYPos[currentHole + 1];
-		
-		gTable.currentHole++;
-	}
+	gTable.currentHole++;
 }
 
 bool endOfSession = false;
