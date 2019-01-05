@@ -133,8 +133,8 @@ public:
 	int currentPlayer = 0;
 	int currentHole = 0;
 	int playersComplete = 0;
-	double spawnXPos[4] = { 0, 5, 3, 3 };
-	double spawnYPos[4] = { 0, 0, 0, 0 };
+	double spawnXPos[4] = { 0, 5, 0, 3 };
+	double spawnYPos[4] = { 0, 0, -5, -5 };
 
 	ball balls[NUM_BALLS];	
 	cushion cushions[NUM_CUSHIONS];

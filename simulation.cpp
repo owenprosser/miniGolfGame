@@ -514,6 +514,7 @@ void table::ManagePositions(void) {
 	cout << "Current Player: " << currentPlayer << " Strokes: " << gTable.players[currentPlayer].strokes << endl << endl;
 
 	gTable.currentPlayer++;
+	cout << "Managed Position: " << gTable.balls[0].position(0);
 }
 
 void table::MoveBall(void){
@@ -524,6 +525,7 @@ void table::MoveBall(void){
 		gTable.balls[0].position(0) = gTable.players[currentPlayer].position(0);
 		gTable.balls[0].position(1) = gTable.players[currentPlayer].position(1);
 	}
+	cout << "Move BALL: " << gTable.balls[0].position(0);
 }
 
 void table::CheckHoles(void){
@@ -572,10 +574,10 @@ void table::NextHole(void) {
 	gTable.currentHole++;
 }
 
-bool endOfSession = false;
+bool endOfSession = false; 
 
 bool table::AnyBallsMoving(void) const
-{
+{ //
 	//return true if any ball has a non-zero velocity
 	for(int i=0;i<NUM_BALLS;i++) 
 	{
@@ -587,6 +589,7 @@ bool table::AnyBallsMoving(void) const
 	}
 
 	if (endOfSession == true) {
+		cout << "running manage positions()";
 		gTable.ManagePositions();
 		gTable.MoveBall();
 	}
