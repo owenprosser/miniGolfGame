@@ -7,7 +7,9 @@
 #include<glut.h>
 #include<math.h>
 #include"simulation.h"
-#include <string> 
+#include <string>
+#include <iostream>
+
 
 //cue variables
 float gCueAngle = 0.0;
@@ -23,8 +25,12 @@ bool gDoCue = true;
 //camera variables
 //vec3 gCamPos(0.0, 0.7, 2.1);
 //vec3 gCamLookAt(0.0, 0.0, 0.0);
-vec3 gCamPos(4.0,9.7,1.1);
-vec3 gCamLookAt(4.0,.0,-1.0);
+//vec3 gCamPos(4.0, 9.7, 1.1);
+//vec3 gCamLookAt(4.0, 0, -1.0);
+vec3 gCamPos(4.0, 12.67, 1.79998);
+vec3 gCamLookAt(4.0, 11.7646, 1.45);
+//gCamPos 4 12.7 1.8
+//gCamLookAt 4 11.7646 1.8
 bool gCamRotate = true;
 float gCamRotSpeed = 0.2;
 float gCamMoveSpeed = 0.5;
@@ -313,6 +319,9 @@ void RenderScene(void) {
 
 	glFlush();
 	glutSwapBuffers();
+
+	std::cout << "\n gCamPos " << gCamPos(0) << " " << gCamPos(1) << " " << gCamPos(2);
+	std::cout << "\n gCamLookAt " << gCamLookAt(0) << " " << gCamLookAt(1) << " " << gCamPos(2);
 }
 
 void SpecKeyboardFunc(int key, int x, int y) 
