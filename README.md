@@ -4,4 +4,5 @@
 
 Demo of game:
 ![Demo of game](https://owenprosser.com/cloud/linkedcontent/poolgame.gif)
- 
+
+(The graphics are not stripy when actually playing)
