@@ -2,5 +2,6 @@
 
 ## This was written for my MSc Advanced Programming assignment.
 
-2019.
+Demo of game:
+![Demo of game](https://owenprosser.com/cloud/linkedcontent/poolgame.gif)
  
