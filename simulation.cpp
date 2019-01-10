@@ -146,42 +146,30 @@ bool ball::HasHitPlane(const cushion &c) const
 	//std::cout << "relpos: " << relPos(0) << std::endl;
 
 	std::string type = "null";
+	double temp = 0;
 
 	if (c.vertices[0](0) == c.vertices[1](0) && c.vertices[0](1) != c.vertices[1](1)) {
-		type = "vertical";
-	}
-	else if (c.vertices[0](1) == c.vertices[1](1) && c.vertices[0](0) != c.vertices[1](0)) {
-		type = "horizontal";
-	}
+		temp = c.centre(0);
 
-
-	double tempVal = 0;
-	if (type == "vertical") {
-		tempVal = c.centre(0);
-
-		double newTemp = (position(0) - tempVal);
+		double newTemp = (position(0) - temp);
 		if (newTemp < 0) {
 			newTemp *= -1;
 		}
 		bool canCollide = false;
 
-		if (newTemp < 0.05) {
+		if (newTemp < BALL_RADIUS) {
 
 			if (c.vertices[0](1) - c.vertices[1](1) < 0) {
-				if (position(1) > c.vertices[0](1) && position(1) < c.vertices[1](1)) {   //IF Y POSITION IS GREATER THAN FIRST VERTEX Y POS, AND LESS THAN SECOND VERTEX Y POS, CAN COLLIDE
-			//		std::cout << "vertical" << std::endl;
-					canCollide = true;
+				if (position(1) > c.vertices[0](1)) {
+					if (position(1) < c.vertices[1](1)) canCollide = true;
 				}
 			}
 			else if (c.vertices[0](1) - c.vertices[1](1) > 0) {
-				if (position(1) < c.vertices[0](1) && position(1) > c.vertices[1](1)) {   //IF Y POSITION IS less THAN FIRST VERTEX Y POS, AND greater THAN SECOND VERTEX Y POS, CAN COLLIDE
-		//			std::cout << "vertical2" << std::endl;
-					canCollide = true;
+				if (position(1) < c.vertices[0](1)) {
+					if (position(1) > c.vertices[1](1)) canCollide = true;
 				}
 			}
-
-			if (canCollide) {
-				//			std::cout << "cancollide" << std::endl;
+			if (canCollide) { //Return true after 
 				return true;
 			}
 			else {
@@ -193,33 +181,27 @@ bool ball::HasHitPlane(const cushion &c) const
 			return false;
 		}
 	}
+	else if (c.vertices[0](1) == c.vertices[1](1) && c.vertices[0](0) != c.vertices[1](0)) {
+		temp = c.centre(1);
 
-	else if (type == "horizontal") {
-		tempVal = c.centre(1);
-
-		double newTemp = (position(1) - tempVal);
+		double newTemp = (position(1) - temp);
 		if (newTemp < 0) {
 			newTemp *= -1;
 		}
 		bool canCollide = false;
 
-		if (newTemp < 0.05) {
-			//std::cout << "pos: " << position(0) << "tempVal: " << tempVal << std::endl;
+		if (newTemp < BALL_RADIUS) {
 			if (c.vertices[0](0) - c.vertices[1](0) < 0) {
-				if (position(0) > c.vertices[0](0) && position(0) < c.vertices[1](0)) {   //IF Y POSITION IS GREATER THAN FIRST VERTEX Y POS, AND LESS THAN SECOND VERTEX Y POS, CAN COLLIDE
-			//		std::cout << "horizontal" << std::endl;
-					canCollide = true;
+				if (position(0) > c.vertices[0](0)) {
+					if (position(0) < c.vertices[1](0)) canCollide = true;
 				}
 			}
 			else if (c.vertices[0](0) - c.vertices[1](0) > 0) {
-				if (position(0) < c.vertices[0](0) && position(0) > c.vertices[1](0)) {   //IF Y POSITION IS GREATER THAN FIRST VERTEX Y POS, AND LESS THAN SECOND VERTEX Y POS, CAN COLLIDE
-	//				std::cout << "horizontal2" << std::endl;
-					canCollide = true;
+				if (position(0) < c.vertices[0](0)) {
+					if (position(0) > c.vertices[1](0)) canCollide = true;
 				}
 			}
-
 			if (canCollide) {
-				//		std::cout << "cancollide" << std::endl;
 				return true;
 			}
 			else {
@@ -230,6 +212,7 @@ bool ball::HasHitPlane(const cushion &c) const
 			return false;
 		}
 	}
+	
 }
 
 bool ball::HasHitBall(const ball &b) const
@@ -363,7 +346,7 @@ void particleSet::update(int ms)
   -----------------------------------------------------------*/
 void table::SetupCushions(void)
 {
-	double table1[52]{
+	double hole1[52]{
 			-1, 1, 1, 1,
 			1, 1, 1, 0.5,
 			1, 0.5, 0.5, 0.5,
@@ -378,18 +361,18 @@ void table::SetupCushions(void)
 			-1, 0.5, -1, 1
 	};
 
-	double table2[32]{
-					-1, -1, -1, 1, //LEFT WALL
-					-1, 1, 1, 1, //BOTTOM WALL
-					1, 1, 1, -1, //RIGHT WALL
-					1, -1, 0.5, -1,
-					0.5, -1, 0.5, -2,
-					0.5, -2, -0.5, -2,
-					-0.5, -2, -0.5, -1,
-					 -0.5, -1, -1, -1
+	double hole2[32]{
+			-1, -1, -1, 1, //LEFT WALL
+			-1, 1, 1, 1, //BOTTOM WALL
+			1, 1, 1, -1, //RIGHT WALL
+			1, -1, 0.5, -1,
+			0.5, -1, 0.5, -2,
+			0.5, -2, -0.5, -2,
+			-0.5, -2, -0.5, -1,
+				-0.5, -1, -1, -1
 	};
 
-	double table3[32]{
+	double hole3[32]{
 		-2, -2, -2, 2,
 		-2, 2, 2, 2,
 		2, 2, 2, -2,
@@ -401,7 +384,7 @@ void table::SetupCushions(void)
 	   1,1,-1,1
 	};
 
-	double table4[32]{
+	double hole4[32]{
 		-1, 1, 0, 1,
 		0, 1, 0, 0,
 		0, 0, 1, 0,
@@ -415,37 +398,37 @@ void table::SetupCushions(void)
 	int count = 0;
 	for(int i = 0; i < 12; i++) // Hole 1
 	{
-		cushions[i].vertices[0](0) = table1[count++]*2;
-		cushions[i].vertices[0](1) = table1[count++]*2;
-		cushions[i].vertices[1](0) = table1[count++]*2;
-		cushions[i].vertices[1](1) = table1[count++]*2;
+		cushions[i].vertices[0](0) = hole1[count++]*2;
+		cushions[i].vertices[0](1) = hole1[count++]*2;
+		cushions[i].vertices[1](0) = hole1[count++]*2;
+		cushions[i].vertices[1](1) = hole1[count++]*2;
 	}
 	count = 0;
 
 	for (int i = 12; i < 20; i++) //Hole 2
 	{
-		cushions[i].vertices[0](0) = table2[count++]*2 + 5;
-		cushions[i].vertices[0](1) = table2[count++]*2;
-		cushions[i].vertices[1](0) = table2[count++]*2 + 5;
-		cushions[i].vertices[1](1) = table2[count++]*2;
+		cushions[i].vertices[0](0) = hole2[count++]*2 + 5;
+		cushions[i].vertices[0](1) = hole2[count++]*2;
+		cushions[i].vertices[1](0) = hole2[count++]*2 + 5;
+		cushions[i].vertices[1](1) = hole2[count++]*2;
 	}
 	count = 0;
 
 	for (int i = 20; i < 28; i++) //Hole 3
 	{
-		cushions[i].vertices[0](0) = table3[count++]-1;
-		cushions[i].vertices[0](1) = table3[count++]-6.5;
-		cushions[i].vertices[1](0) = table3[count++]-1;
-		cushions[i].vertices[1](1) = table3[count++]-6.5;
+		cushions[i].vertices[0](0) = hole3[count++]-1;
+		cushions[i].vertices[0](1) = hole3[count++]-6.5;
+		cushions[i].vertices[1](0) = hole3[count++]-1;
+		cushions[i].vertices[1](1) = hole3[count++]-6.5;
 	}
 	count = 0;
 
 	for (int i = 28; i < 36; i++) //Hole 4
 	{
-		cushions[i].vertices[0](0) = table4[count++]*2 + 4;
-		cushions[i].vertices[0](1) = table4[count++]*2 - 6.5;
-		cushions[i].vertices[1](0) = table4[count++]*2 + 4;
-		cushions[i].vertices[1](1) = table4[count++]*2 - 6.5;
+		cushions[i].vertices[0](0) = hole4[count++]*2 + 4;
+		cushions[i].vertices[0](1) = hole4[count++]*2 - 6.5;
+		cushions[i].vertices[1](0) = hole4[count++]*2 + 4;
+		cushions[i].vertices[1](1) = hole4[count++]*2 - 6.5;
 	}
 
 	/*gTable.balls[0].position(0) = 0;
@@ -466,7 +449,7 @@ void table::SetupCushions(void)
 		gTable.players.push_back(newPlayer);
 	}
 
-	//Setup Hole
+	//Setup Holes
 	double holeXPos[4] = { 1.5, 5, -1, 7 };
 	double holeYPos[4] = { -2.5, -3, -8, -6 };
 

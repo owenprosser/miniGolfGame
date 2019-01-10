@@ -1,8 +1,14 @@
-﻿  Pool Game.cpp
+﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  stdafx.cpp
+  simulation.cpp
+  Pool Game.cpp
 e:\pool assignment\pool game.cpp(53): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
 e:\pool assignment\pool game.cpp(86): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
 e:\pool assignment\pool game.cpp(121): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(119): note: see declaration of 'strcpy'
+  Generating Code...
+e:\pool assignment\simulation.cpp(216): warning C4715: 'ball::HasHitPlane': not all control paths return a value
+Pool Game.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
   Pool Game.vcxproj -> E:\Pool Assignment\Debug\Pool Game.exe

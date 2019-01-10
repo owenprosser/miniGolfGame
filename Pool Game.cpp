@@ -20,7 +20,7 @@ float gCuePowerSpeed = 0.25f;
 float gCuePowerMax = 0.75;
 float gCuePowerMin = 0.1;
 float gCueBallFactor = 8.0;
-bool gDoCue = true;
+bool gDoCue = true; 
 
 //camera variables
 //vec3 gCamPos(0.0, 0.7, 2.1);
@@ -87,7 +87,7 @@ void DrawTextToScreen()
 	len = strlen(menu);
 
 	glColor3f(1, 1, 1);
-
+	    
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
@@ -317,11 +317,11 @@ void RenderScene(void) {
 
 	//glPopMatrix();
 
-	glFlush();
+	glFlush(); 
 	glutSwapBuffers();
 
-	std::cout << "\n gCamPos " << gCamPos(0) << " " << gCamPos(1) << " " << gCamPos(2);
-	std::cout << "\n gCamLookAt " << gCamLookAt(0) << " " << gCamLookAt(1) << " " << gCamPos(2);
+	//std::cout << "\n gCamPos " << gCamPos(0) << " " << gCamPos(1) << " " << gCamPos(2);
+	//std::cout << "\n gCamLookAt " << gCamLookAt(0) << " " << gCamLookAt(1) << " " << gCamPos(2);
 }
 
 void SpecKeyboardFunc(int key, int x, int y) 
